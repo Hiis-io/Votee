@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/project/*/
 # Only exists if Bazel was run
 /bazel-out
 tmp.html
@@ -21,6 +22,8 @@ speed-measure-plugin*.json
 .classpath
 .c9/
 .bsp/
+.bloop/
+.metals/
 *.launch
 .settings/
 *.sublime-workspace
@@ -46,3 +49,50 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+build
+.classpath*
+.project*
+.settings*
+
+org.scala-ide.sdt.core/META-INF/MANIFEST.MF
+org.scala-ide.sdt.update-site/site.xml
+
+.DS_Store
+project/target/
+*~
+*.swp
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
+*.pdf
+*.lst
+*.log
+*.bbl
+*.blg
+*private*
+*.synctex.gz
+/.scala_dependencies
+
+
+### Scala ###
+*.class
+*.log
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/target/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
