@@ -15,10 +15,10 @@ class Rational(x: Int, y: Int) {
   // define a greatest common divisor method we can use to simplify rationals
   private def gcd(a: Int, b: Int): Int = Math.abs(if (b == 0) a else gcd(b, a % b))
 
-  val g = gcd(x, y)
+  val g: Int = gcd(x, y)
 
-  val numerator = x / g
-  val denominator = y / g
+  val numerator: Int = x / g
+  val denominator: Int = y / g
 
   // define a second constructor
   def this(x: Int) = this(x, 1)
@@ -63,5 +63,5 @@ class Rational(x: Int, y: Int) {
   def unary_/ : Rational = inv
 
   override
-  def toString: String = numerator + "/" + denominator
+  def toString: String = s"$numerator / $denominator"
 }

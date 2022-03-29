@@ -8,3 +8,7 @@ import votee.utils.Rational
  */
 
 final case class Winner[C <: Candidate](candidate: C, weight: Rational)
+
+object Winner {
+  def apply[C <: Candidate](winner: (C, Rational)): Winner[C] = Winner(winner._1, winner._2)
+}
