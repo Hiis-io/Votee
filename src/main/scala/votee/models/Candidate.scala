@@ -6,5 +6,5 @@ package votee.models
 
 class Candidate(val id: String)
 
-final case class PreferentialCandidate(override val id: String, val name: String, val party: Option[String] = None) extends Candidate(id):
+final case class PreferentialCandidate(override val id: String, name: String, party: Option[String] = None) extends Candidate(id):
   override def toString: String = Seq(id, name, party).mkString("[",",","]")

@@ -8,6 +8,5 @@ import votee.utils.Rational
 
 abstract class Ballot[+C](val id: Int, val weight: Rational)
 
-final case class PreferenceBallot[C <: Candidate](override val id: Int, override val weight: Rational, val preferences: List[C])
+final case class PreferenceBallot[C <: Candidate](override val id: Int, override val weight: Rational, preferences: List[C])
   extends Ballot[C](id, weight)
- 
