@@ -10,7 +10,7 @@ import scala.collection.mutable
  */
 
 trait MajorityWithPercentage[C <: Candidate, B <: PreferenceBallot[C]](majorityPercentage: Rational = Rational(1,2)) extends Election[C, B, Winner[C]]:
-  require(!(majorityPercentage < Rational(1,2)))
+  require(!(majorityPercentage < Rational(1,2)) && !(majorityPercentage > Rational(1) ))
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
