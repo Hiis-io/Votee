@@ -1,16 +1,16 @@
 package votee.algorithms
 
-import votee.models.{Candidate, Election, PreferenceBallot, Winner}
+import votee.models.{Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
 
 /**
  * Created by Abanda Ludovic on 31/03/2022.
- * Algorithm as described at https://en.wikipedia.org/wiki/Borda_count
+ * Algorithm as described at https://en.wikipedia.org/wiki/Nanson%27s_method#Baldwin_method
  */
 
-trait BaldWin [C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
+trait BaldWin[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
 
     if (candidates.length == 1)
@@ -26,11 +26,16 @@ trait BaldWin [C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, 
     //Calculate Border Scores for the candidates
     ballots.foreach { ballot =>
       if ballot.preferences.nonEmpty then
-        // need to take the size of the list first and then calculate the borda scores
-        var bordaCounter = candidates.length
-        ballot.preferences.filter(candidate => candidates.contains(candidate)).map(candidate => {
-          candidateScoreMap(candidate) = candidateScoreMap.getOrElse(candidate, Rational(0, 1)) + (Rational(bordaCounter - 1) * ballot.weight)
-          bordaCounter -= 1
+        ballot.preferences.filter(candidate => candidates.contains(candidate)).zipWithIndex.foreach(candidateWithIndex => {
+          candidateScoreMap(candidateWithIndex._1) =
+            candidateScoreMap.getOrElse(candidateWithIndex._1, Rational(0, 1)) +
+              (Rational(candidates.length - 1 - candidateWithIndex._2) * ballot.weight)
         })
     }
     candidateScoreMap
+
+  end bordaScores
+end BaldWin
+
+
+case object BaldWin extends BaldWin[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]]
