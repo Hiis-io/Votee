@@ -7,6 +7,7 @@ import scala.collection.mutable
 
 /**
  * Created by Abanda Ludovic on 30/03/2022.
+ * Algorithm described at https://en.wikipedia.org/wiki/Approval_voting
  */
 
 trait Approval[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:

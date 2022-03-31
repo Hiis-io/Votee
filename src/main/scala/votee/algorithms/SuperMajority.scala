@@ -7,6 +7,7 @@ import scala.collection.mutable
 
 /**
  * Created by Abanda Ludovic on 30/03/2022.
+ * Algorithm described at https://en.wikipedia.org/wiki/Supermajority
  */
 
 trait MajorityWithPercentage[C <: Candidate, B <: PreferenceBallot[C]](majorityPercentage: Rational = Rational(1,2)) extends Election[C, B, Winner[C]]:

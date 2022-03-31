@@ -7,6 +7,7 @@ import scala.collection.mutable
 
 /**
  * Created by Abanda Ludovic on 29/03/2022.
+ * Algorithm described at https://en.wikipedia.org/wiki/Majority_rule
  */
 
 trait Majority[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:

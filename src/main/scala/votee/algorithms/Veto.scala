@@ -17,7 +17,7 @@ trait Veto[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winn
     for (ballot <- ballots) {
       for (preference <- ballot.preferences) {
         if !(preference == ballot.preferences.last && ballot.preferences.length > 1) then
-          //Automatically assign a weight of 1 to all candidates in the ballot except the last candidate as described by the veto rule
+          //Automatically assign a score of 1 to all candidates in the ballot except the last candidate as described by the veto rule
           candidateScoreMap(preference) = candidateScoreMap.getOrElse(preference, Rational(0, 1)) + Rational(1, 1)
       }
     }
