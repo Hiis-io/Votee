@@ -14,7 +14,7 @@ trait Election[C <: Candidate, B <: Ballot[C], W <: Winner[C]]:
 
 trait PreferentialElection[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
   val MAJORITY_THRESHOLD: Rational = Rational(1,2)
-  
+
   def countFirstVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
@@ -25,4 +25,15 @@ trait PreferentialElection[C <: Candidate, B <: PreferenceBallot[C]] extends Ele
 
     Map.empty ++ candidateScoreMap
   end countFirstVotes
+
+  def countLastVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
+    val candidateScoreMap = new mutable.HashMap[C, Rational]
+
+    //We are interested only in the last candidate in the ballot
+    for (ballot <- ballots)
+      candidateScoreMap(ballot.preferences.reverse.head) =
+        ballot.weight + candidateScoreMap.getOrElse(ballot.preferences.head, Rational(0))
+
+    Map.empty ++ candidateScoreMap
+  end countLastVotes
 end PreferentialElection
