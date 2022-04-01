@@ -18,13 +18,13 @@ trait BordaCount[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B
     ballots.foreach { ballot =>
       if ballot.preferences.nonEmpty then
         ballot.preferences.filter(candidate => candidates.contains(candidate)).zipWithIndex.foreach(candidateWithIndex => {
-          candidateScoreMap(candidateWithIndex._1) = 
-            candidateScoreMap.getOrElse(candidateWithIndex._1, Rational(0, 1)) + 
+          candidateScoreMap(candidateWithIndex._1) =
+            candidateScoreMap.getOrElse(candidateWithIndex._1, Rational(0, 1)) +
               (Rational(candidates.length - 1 - candidateWithIndex._2) * ballot.weight)
         })
     }
     candidateScoreMap.toList.sortWith(_._2 > _._2).take(vacancies).map(Winner(_))
-    
+
   end run
 end BordaCount
 

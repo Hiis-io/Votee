@@ -14,9 +14,8 @@ import scala.collection.mutable
 trait Coomb[C <: Candidate, B <: PreferenceBallot[C]] extends PreferentialElection[C, B]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
-
-    if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD).take(1).nonEmpty then
-      candidateScoreMap.toList.map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD).take(1)
+    if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then
+      candidateScoreMap.toList.map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1)
     else
       val lastCandidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countLastVotes(ballots, candidates)
       val highestRankingLast: C = lastCandidateScoreMap.toList.sortWith(_._2 > _._2).head._1
