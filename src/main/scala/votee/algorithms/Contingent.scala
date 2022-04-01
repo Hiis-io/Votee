@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 /**
  * Created by Abanda Ludovic on 31/03/2022.
- * https://en.wikipedia.org/wiki/Contingent_vote
+ * Algorithm: https://en.wikipedia.org/wiki/Contingent_vote
  */
 
 trait Contingent[C <: Candidate, B <: PreferenceBallot[C]] extends PreferentialElection[C, B]:

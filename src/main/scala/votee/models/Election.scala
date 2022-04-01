@@ -18,22 +18,27 @@ trait PreferentialElection[C <: Candidate, B <: PreferenceBallot[C]] extends Ele
   def countFirstVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
-    //We are interested only in the first Candidate in the ballot
-    for (ballot <- ballots)
-      candidateScoreMap(ballot.preferences.head) =
-        ballot.weight + candidateScoreMap.getOrElse(ballot.preferences.head, Rational(0))
-
+    //We are interested only in the first valid candidate in the ballot
+    ballots.foreach { ballot =>
+      ballot.preferences.find(candidates.contains(_)) match {
+        case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
+        case _ =>
+      }
+    }
     Map.empty ++ candidateScoreMap
   end countFirstVotes
 
   def countLastVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
-    //We are interested only in the last candidate in the ballot
-    for (ballot <- ballots)
-      candidateScoreMap(ballot.preferences.reverse.head) =
-        ballot.weight + candidateScoreMap.getOrElse(ballot.preferences.head, Rational(0))
-
+    //We are interested only in the last valid candidate in the ballot
+    ballots.foreach { ballot =>
+      ballot.preferences.findLast(candidates.contains(_)) match {
+        case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
+        case _ =>
+      }
+    }
     Map.empty ++ candidateScoreMap
   end countLastVotes
+  
 end PreferentialElection
