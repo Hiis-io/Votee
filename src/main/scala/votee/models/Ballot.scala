@@ -17,12 +17,14 @@ class PreferenceBallot[C <: Candidate](override val id: Int, override val weight
   }
 
   def includeCandidates[B <: PreferenceBallot[C]](candidates: List[C], ballot: B = this): B =
-    ballot.preferences = ballot.preferences ++ candidates
-    ballot
+    val b = ballot
+    b.preferences = b.preferences ++ candidates
+    b
 
   def excludeCandidates[B <: PreferenceBallot[C]](candidates: List[C], ballot: B = this): B =
-    ballot.preferences = preferences.filterNot(candidates.contains(_))
-    ballot
+    val b = ballot
+    b.preferences = b.preferences.filterNot(candidates.contains(_))
+    b
 end PreferenceBallot
 
 object PreferenceBallot {

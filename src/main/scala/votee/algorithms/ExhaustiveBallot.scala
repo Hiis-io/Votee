@@ -4,6 +4,7 @@ import votee.models.{Candidate, PreferenceBallot, PreferentialElection, Winner}
 
 /**
  * Created by Abanda Ludovic on 01/04/2022.
+ * Algorithm: https://en.wikipedia.org/wiki/Exhaustive_ballot
  */
 
 trait ExhaustiveBallot[C <: Candidate, B <: PreferenceBallot[C]] extends PreferentialElection[C, B]:
