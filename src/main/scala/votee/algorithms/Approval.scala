@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.collection.mutable
  * Algorithm described at https://en.wikipedia.org/wiki/Approval_voting
  */
 
-trait Approval[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
+trait Approval[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (ballot <- ballots)
