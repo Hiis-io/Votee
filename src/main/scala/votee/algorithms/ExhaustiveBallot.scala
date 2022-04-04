@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, PreferenceBallot, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
 
 /**
  * Created by Abanda Ludovic on 01/04/2022.
@@ -19,3 +19,5 @@ trait ExhaustiveBallot[C <: Candidate, B <: Ballot[C]] extends PreferentialElect
       sortedCandidateList.map(Winner(_)).last::List()
     }
   }
+
+case object ExhaustiveBallot extends ExhaustiveBallot[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]]
