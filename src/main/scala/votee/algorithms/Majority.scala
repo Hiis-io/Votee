@@ -1,7 +1,7 @@
 package votee.algorithms
 
 import votee.algorithms
-import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -11,16 +11,10 @@ import scala.collection.mutable
  * Algorithm described at https://en.wikipedia.org/wiki/Majority_rule
  */
 
-trait Majority[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
+trait Majority[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
-    val candidateScoreMap = new mutable.HashMap[C, Rational]
-
-    //We are interested only in the first Candidate in the ballot
-    for (ballot <- ballots)
-      candidateScoreMap(ballot.preferences.head) =
-        ballot.weight + candidateScoreMap.getOrElse(ballot.preferences.head, Rational(0))
-
-    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > Rational(ballots.length / 2)).take(vacancies)
+    val candidateScoreMap = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
+    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > Rational(ballots.length) * MAJORITY_THRESHOLD).take(vacancies)
   end run
 end Majority
 

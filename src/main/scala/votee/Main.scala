@@ -11,11 +11,12 @@ object Main extends App {
   val c = b.excludeCandidates(candidates.take(1))
   println(b)
   val ballots = List(
-    c,
+    b,
+    b,
     PreferenceBallot[PreferentialCandidate](1, Rational(1), candidates),
     PreferenceBallot[PreferentialCandidate](2, Rational(1), candidates.reverse),
   )
 
-  val winner = BordaCount.run(ballots, candidates, 1)
-  println(s"Winner is: ${winner.head.candidate.name}")
+  val winner = SuperMajority(Rational(4,4)).run(ballots, candidates, 1)
+  println(s"Winner is: ${winner}")
 }
