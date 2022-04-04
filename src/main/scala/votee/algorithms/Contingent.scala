@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.collection.mutable
  * Algorithm: https://en.wikipedia.org/wiki/Contingent_vote
  */
 
-trait Contingent[C <: Candidate, B <: PreferenceBallot[C]] extends PreferentialElection[C, B]:
+trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
 

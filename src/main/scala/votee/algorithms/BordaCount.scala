@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.collection.mutable
  * Algorithm as described at https://en.wikipedia.org/wiki/Borda_count
  */
 
-trait BordaCount[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
+trait BordaCount[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 

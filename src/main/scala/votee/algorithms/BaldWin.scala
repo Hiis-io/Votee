@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.collection.mutable
  * Algorithm as described at https://en.wikipedia.org/wiki/Nanson%27s_method#Baldwin_method
  */
 
-trait BaldWin[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
+trait BaldWin[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
 
     if (candidates.length == 1)

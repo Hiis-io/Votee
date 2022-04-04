@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Candidate, PreferenceBallot, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferenceBallot, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -11,7 +11,7 @@ import scala.collection.mutable
  * so ballots with fewer preferences are not voided
  */
  //TODO Fix Algorithm
-trait Oklahoma[C <: Candidate, B <: PreferenceBallot[C]] extends PreferentialElection[C, B]:
+trait Oklahoma[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] = ???
 
   def oklahomaTotals(ballots: List[B], candidates: List[C], candidateScoresMap: mutable.HashMap[C, Rational], multiplier: Rational):List[(Candidate, Rational)] = {

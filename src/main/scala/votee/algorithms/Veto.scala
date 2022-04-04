@@ -9,7 +9,7 @@ import scala.collection.mutable
  * Created by Abanda Ludovic on 29/03/2022.
  */
 
-trait Veto[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
+trait Veto[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (c <- candidates) candidateScoreMap(c) = Rational(0, 1)

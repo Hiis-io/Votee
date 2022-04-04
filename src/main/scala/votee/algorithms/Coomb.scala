@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Candidate, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -11,7 +11,7 @@ import scala.collection.mutable
  * Note: This voting method requires voters to rank all the candidates
  */
 
-trait Coomb[C <: Candidate, B <: PreferenceBallot[C]] extends PreferentialElection[C, B]:
+trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
     if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then

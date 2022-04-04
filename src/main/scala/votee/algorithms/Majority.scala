@@ -1,7 +1,7 @@
 package votee.algorithms
 
 import votee.algorithms
-import votee.models.{Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -11,7 +11,7 @@ import scala.collection.mutable
  * Algorithm described at https://en.wikipedia.org/wiki/Majority_rule
  */
 
-trait Majority[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
+trait Majority[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 

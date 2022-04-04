@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.collection.mutable
  * Algorithm described at https://en.wikipedia.org/wiki/Supermajority
  */
 
-trait MajorityWithPercentage[C <: Candidate, B <: PreferenceBallot[C]](majorityPercentage: Rational = Rational(1,2)) extends Election[C, B, Winner[C]]:
+trait MajorityWithPercentage[C <: Candidate, B <: Ballot[C]](majorityPercentage: Rational = Rational(1,2)) extends Election[C, B, Winner[C]]:
   require(!(majorityPercentage < Rational(1,2)) && !(majorityPercentage > Rational(1) ))
   override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
