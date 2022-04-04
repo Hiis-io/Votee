@@ -6,27 +6,24 @@ import votee.utils.Rational
  * Created by Abanda Ludovic on 29/03/2022.
  */
 
-abstract class Ballot[C](val id: Int, val weight: Rational)
+trait BallotOps[C <: Candidate]:
+  type T <: Ballot[C]
+  lazy val firstVotes: Map[C, Rational]
+  def includeCandidates(candidates: List[C]): T
+  def excludeCandidates(candidates: List[C]): T
 
-class PreferenceBallot[C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), var preferences: List[C])
-  extends Ballot[C](id, weight):
+abstract class Ballot[C <: Candidate](val id: Int, val weight: Rational, val preferences: List[C]) extends BallotOps[C]
+
+final case class PreferenceBallot[C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), override val preferences: List[C])
+  extends Ballot[C](id, weight, preferences):
+  override type T = PreferenceBallot[C]
   require(preferences.nonEmpty)
-  lazy val firstVotes: Map[_ <: C, Rational] = preferences.headOption match {
+  lazy val firstVotes: Map[C, Rational] = preferences.headOption match {
     case Some(c) => Map(c -> Rational(1,1))
     case None => Map()
   }
 
-  def includeCandidates[B <: PreferenceBallot[C]](candidates: List[C], ballot: B = this): B =
-    val b = ballot
-    b.preferences = b.preferences ++ candidates
-    b
+  override def includeCandidates(candidates: List[C]): T = PreferenceBallot(id, weight, preferences ++ candidates)
 
-  def excludeCandidates[B <: PreferenceBallot[C]](candidates: List[C], ballot: B = this): B =
-    val b = ballot
-    b.preferences = b.preferences.filterNot(candidates.contains(_))
-    b
+  override def excludeCandidates(candidates: List[C]): T = PreferenceBallot(id, weight, preferences.filterNot(candidates.contains(_)))
 end PreferenceBallot
-
-object PreferenceBallot {
-
-}

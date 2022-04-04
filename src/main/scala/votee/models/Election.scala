@@ -12,7 +12,7 @@ trait Election[C <: Candidate, B <: Ballot[C], W <: Winner[C]]:
   def run(ballots: List[B], candidates: List[C], vacancies: Int): List[W]
 
 
-trait PreferentialElection[C <: Candidate, B <: PreferenceBallot[C]] extends Election[C, B, Winner[C]]:
+trait PreferentialElection[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
   val MAJORITY_THRESHOLD: Rational = Rational(1,2)
 
   def countFirstVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
