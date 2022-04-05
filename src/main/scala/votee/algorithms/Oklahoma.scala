@@ -12,7 +12,7 @@ import scala.collection.mutable
  */
  //TODO Fix Algorithm
 trait Oklahoma[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] = ???
+  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] = ???
 
   def oklahomaTotals(ballots: List[B], candidates: List[C], candidateScoresMap: mutable.HashMap[C, Rational], multiplier: Rational):List[(Candidate, Rational)] = {
     val scoresMap = candidateScoresMap

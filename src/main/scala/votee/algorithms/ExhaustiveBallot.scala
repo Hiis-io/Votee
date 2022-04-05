@@ -8,7 +8,7 @@ import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidat
  */
 
 trait ExhaustiveBallot[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] = {
+  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] = {
     val candidateScoreMap = countFirstVotes(ballots, candidates)
     val sortedCandidateList = candidateScoreMap.toList.sortWith(_._2 < _._2)
     if (candidateScoreMap.size > 2) {

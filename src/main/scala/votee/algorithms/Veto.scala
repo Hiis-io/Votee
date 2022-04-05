@@ -10,7 +10,7 @@ import scala.collection.mutable
  */
 
 trait Veto[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
+  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (ballot <- ballots) {
       for (preference <- ballot.preferences) {
