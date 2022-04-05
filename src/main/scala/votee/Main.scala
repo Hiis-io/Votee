@@ -18,4 +18,4 @@ object Main extends App {
   val majority: Majority[PreferentialCandidate] = Majority()
   val winner = majority.run(ballots, candidates, 1)
   println(s"Winner is: ${winner}")
-}
+} 

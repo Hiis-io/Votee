@@ -10,7 +10,7 @@ import scala.collection.mutable
  * Algorithm as described at https://en.wikipedia.org/wiki/Nanson%27s_method#Baldwin_method
  */
 
-trait BaldWin[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+trait BaldWinRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
 
     if (candidates.length == 1)
@@ -35,7 +35,6 @@ trait BaldWin[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]
     candidateScoreMap
 
   end bordaScores
-end BaldWin
+end BaldWinRule
 
-
-case object BaldWin extends BaldWin[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]
+final class BaldWin[C <: Candidate] extends BaldWinRule[C, Ballot[C]]
