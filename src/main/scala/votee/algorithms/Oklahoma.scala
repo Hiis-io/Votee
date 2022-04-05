@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, PreferenceBallot, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable

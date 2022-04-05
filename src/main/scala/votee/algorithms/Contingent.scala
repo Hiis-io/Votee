@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -31,6 +31,6 @@ trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C,
   end run
 end Contingent
 
-case object Contingent extends Contingent[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]]
+case object Contingent extends Contingent[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]
 
 

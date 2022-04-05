@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -23,4 +23,4 @@ trait Veto[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   end run
 end Veto
 
-case object Veto extends Veto[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]]
+case object Veto extends Veto[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]

@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -18,5 +18,5 @@ trait MajorityWithPercentage[C <: Candidate, B <: Ballot[C]](majorityPercentage:
   end run
 end MajorityWithPercentage
 
-final case class SuperMajority(majorityPercentage: Rational) extends MajorityWithPercentage[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]](majorityPercentage)
+final case class SuperMajority(majorityPercentage: Rational) extends MajorityWithPercentage[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]](majorityPercentage)
 

@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -24,5 +24,5 @@ trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   end run
 end Coomb
 
-case object Coomb extends Coomb[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]]
+case object Coomb extends Coomb[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]
 

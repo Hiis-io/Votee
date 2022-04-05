@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferenceBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -29,4 +29,4 @@ trait BordaCount[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C,
 end BordaCount
 
 
-case object BordaCount extends BordaCount[PreferentialCandidate, PreferenceBallot[PreferentialCandidate]]
+case object BordaCount extends BordaCount[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]
