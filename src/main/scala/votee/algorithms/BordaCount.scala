@@ -11,7 +11,7 @@ import scala.collection.mutable
  */
 
 trait BordaCountRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
     //Calculate Border Scores for the candidates
@@ -24,9 +24,7 @@ trait BordaCountRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElectio
         })
     }
     candidateScoreMap.toList.sortWith(_._2 > _._2).take(vacancies).map(Winner(_))
-
   end run
 end BordaCountRule
-
 
 final class BordaCount[C <: Candidate] extends BordaCountRule[C, Ballot[C]]

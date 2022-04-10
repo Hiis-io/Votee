@@ -11,7 +11,7 @@ import scala.collection.mutable
  */
 
 trait ContingentRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
 
     val sortedTotals: List[(C, Rational)] = candidateScoreMap.toList.sortWith(_._2 > _._2)
