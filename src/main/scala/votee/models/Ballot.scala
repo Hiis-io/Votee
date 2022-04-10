@@ -23,7 +23,7 @@ end Ballot
 
 final case class PreferentialBallot[C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), override val preferences: List[C])
   extends Ballot[C](id, weight, preferences):
-  
+
   override type BB = PreferentialBallot[C]
 
   override def includeCandidates(candidates: List[C]): BB = PreferentialBallot(id, weight, preferences ++ candidates)

@@ -1,8 +1,7 @@
 package votee
 
 import votee.algorithms.{BordaCount, Coomb, Majority, SuperMajority}
-import votee.models.PreferentialCandidate
-import votee.models.PreferentialBallot
+import votee.models.{Candidate, PreferentialBallot, PreferentialCandidate}
 import votee.utils.Rational
 
 object Main extends App {
@@ -11,11 +10,8 @@ object Main extends App {
   val c = b.excludeCandidates(candidates.take(1))
   println(b)
   val ballots = List(
-    b,
-    PreferentialBallot[PreferentialCandidate](1, Rational(1), candidates),
-    PreferentialBallot[PreferentialCandidate](2, Rational(1), candidates.reverse)
+    PreferentialBallot(7, Rational(1), List(PreferentialCandidate("abanda", "Abanda"), PreferentialCandidate("ludovic", "Ludovic")))
   )
-  val majority: Majority[PreferentialCandidate] = Majority()
-  val winner = majority.run(ballots, candidates, 1)
+  val winner = Majority[PreferentialCandidate].run(ballots, candidates, 1)
   println(s"Winner is: ${winner}")
 } 
