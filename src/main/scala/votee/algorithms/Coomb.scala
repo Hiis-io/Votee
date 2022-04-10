@@ -3,6 +3,7 @@ package votee.algorithms
 import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
 import votee.utils.Rational
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 
 /**
@@ -11,8 +12,9 @@ import scala.collection.mutable
  * Note: This voting method requires voters to rank all the candidates
  */
 
-trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+trait CoombRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  @tailrec
+  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
     if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then
       candidateScoreMap.toList.map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1)
@@ -22,7 +24,7 @@ trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
 
       run(ballots, candidates.filterNot(_ == highestRankingLast), vacancies)
   end run
-end Coomb
+end CoombRule
 
-case object Coomb extends Coomb[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]
+final class Coomb[C <: Candidate] extends CoombRule[C, Ballot[C]]
 
