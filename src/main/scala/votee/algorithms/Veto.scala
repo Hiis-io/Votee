@@ -9,8 +9,8 @@ import scala.collection.mutable
  * Created by Abanda Ludovic on 29/03/2022.
  */
 
-trait Veto[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+trait VetoRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (ballot <- ballots) {
       for (preference <- ballot.preferences) {
@@ -21,6 +21,6 @@ trait Veto[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
     }
     candidateScoreMap.toList.sortWith(_._2 > _._2).take(vacancies).map(Winner(_))
   end run
-end Veto
+end VetoRule
 
-case object Veto extends Veto[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]]
+final class Veto[C <: Candidate] extends VetoRule[C, Ballot[C]]
