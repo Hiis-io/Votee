@@ -18,5 +18,4 @@ trait MajorityWithPercentage[C <: Candidate, B <: Ballot[C]](majorityPercentage:
   end run
 end MajorityWithPercentage
 
-final case class SuperMajority(majorityPercentage: Rational) extends MajorityWithPercentage[PreferentialCandidate, PreferentialBallot[PreferentialCandidate]](majorityPercentage)
-
+final case class SuperMajority[C <: Candidate](majorityPercentage: Rational) extends MajorityWithPercentage[C, Ballot[C]](majorityPercentage)
