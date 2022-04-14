@@ -11,8 +11,8 @@ import scala.collection.mutable
  * so ballots with fewer preferences are not voided
  */
  //TODO Fix Algorithm
-trait Oklahoma[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] = ???
+sealed trait Oklahoma[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] = ???
 
   def oklahomaTotals(ballots: List[B], candidates: List[C], candidateScoresMap: mutable.HashMap[C, Rational], multiplier: Rational):List[(Candidate, Rational)] = {
     val scoresMap = candidateScoresMap
@@ -22,12 +22,10 @@ trait Oklahoma[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B
     }
     val sortedCandidateScoreMap = scoresMap.toList.sortWith(_._2 > _._2)
     if (sortedCandidateScoreMap.head._2 > MAJORITY_THRESHOLD * Rational(ballots.length)) {
-      sortedCandidateScoreMap.head :: List()
+      sortedCandidateScoreMap.head :: List.empty
     } else {
-      var ballots: List[B] = Nil
-      for (ballot <- ballots) {
-        ballot.excludeCandidates(candidates):: ballots
-      }
-      oklahomaTotals(ballots, candidates, scoresMap, Rational(multiplier.numerator, multiplier.denominator + 1))
+      val newBallots: List[B] = List.empty
+      ballots.foreach(_.excludeCandidates(candidates):: newBallots)
+      oklahomaTotals(newBallots, candidates, scoresMap, Rational(multiplier.numerator, multiplier.denominator + 1))
     }
   }

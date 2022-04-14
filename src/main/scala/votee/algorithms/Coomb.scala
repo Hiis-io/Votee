@@ -12,9 +12,9 @@ import scala.collection.mutable
  * Note: This voting method requires voters to rank all the candidates
  */
 
-trait CoombRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+sealed trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   @tailrec
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
     if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then
       candidateScoreMap.toList.map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1)
@@ -24,7 +24,9 @@ trait CoombRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, 
 
       run(ballots, candidates.filterNot(_ == highestRankingLast), vacancies)
   end run
-end CoombRule
+end Coomb
 
-final class Coomb[C <: Candidate] extends CoombRule[C, Ballot[C]]
+case object  Coomb:
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
+    new Coomb[CC, BB]{}.run(ballots, candidates, vacancies)
 

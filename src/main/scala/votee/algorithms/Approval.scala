@@ -10,8 +10,8 @@ import scala.collection.mutable
  * Algorithm described at https://en.wikipedia.org/wiki/Approval_voting
  */
 
-trait ApprovalRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+sealed trait Approval[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (ballot <- ballots)
       for(candidate <- ballot.preferences)
@@ -19,6 +19,8 @@ trait ApprovalRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[
 
     candidateScoreMap.toList.sortWith( _._2 > _._2 ).take(vacancies).map(Winner(_))
   end run
-end ApprovalRule
+end Approval
 
-final class Approval[C <: Candidate] extends ApprovalRule[C, Ballot[C]]
+object Approval:
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
+    new Approval[CC, BB]{}.run(ballots, candidates, vacancies)

@@ -10,8 +10,8 @@ import scala.collection.mutable
  * Algorithm as described at https://en.wikipedia.org/wiki/Borda_count
  */
 
-trait BordaCountRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+sealed trait BordaCount[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
     //Calculate Border Scores for the candidates
@@ -25,6 +25,8 @@ trait BordaCountRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElectio
     }
     candidateScoreMap.toList.sortWith(_._2 > _._2).take(vacancies).map(Winner(_))
   end run
-end BordaCountRule
+end BordaCount
 
-final class BordaCount[C <: Candidate] extends BordaCountRule[C, Ballot[C]]
+case object  BordaCount:
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
+    new BordaCount[CC, BB]{}.run(ballots, candidates, vacancies)

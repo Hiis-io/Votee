@@ -10,8 +10,8 @@ import scala.collection.mutable
  * Algorithm: https://en.wikipedia.org/wiki/Contingent_vote
  */
 
-trait ContingentRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
 
     val sortedTotals: List[(C, Rational)] = candidateScoreMap.toList.sortWith(_._2 > _._2)
@@ -29,8 +29,10 @@ trait ContingentRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElectio
       }
       List(candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).head)
   end run
-end ContingentRule
+end Contingent
 
-final class Contingent[C <: Candidate] extends ContingentRule[C, Ballot[C]]
+case object  Contingent:
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
+    new Contingent[CC, BB]{}.run(ballots, candidates, vacancies)
 
 

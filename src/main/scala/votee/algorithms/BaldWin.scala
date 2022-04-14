@@ -11,9 +11,9 @@ import scala.collection.mutable
  * Algorithm as described at https://en.wikipedia.org/wiki/Nanson%27s_method#Baldwin_method
  */
 
-trait BaldWinRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+sealed trait BaldWin[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   @tailrec
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     if candidates.length == 1 then
       bordaScores(ballots, candidates).toList.map(Winner(_))
     else
@@ -21,7 +21,7 @@ trait BaldWinRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C
       val lowestBordaCandidate = bordaScores(ballots, candidates).toList.sortWith(_._2 < _._2).head
       run(ballots, candidates.filter(_ != lowestBordaCandidate._1), vacancies)
   end run
-  
+
   private def bordaScores(ballots: List[B], candidates: List[C]): mutable.HashMap[C, Rational] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
@@ -36,6 +36,8 @@ trait BaldWinRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C
     }
     candidateScoreMap
   end bordaScores
-end BaldWinRule
+end BaldWin
 
-final class BaldWin[C <: Candidate] extends BaldWinRule[C, Ballot[C]]
+case object  BaldWin:
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
+    new BaldWin[CC, BB]{}.run(ballots, candidates, vacancies)

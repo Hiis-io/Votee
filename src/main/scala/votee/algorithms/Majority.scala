@@ -1,7 +1,7 @@
 package votee.algorithms
 
 import votee.algorithms
-import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, BallotOps, Candidate, Election, PreferentialElection, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -11,11 +11,13 @@ import scala.collection.mutable
  * Algorithm described at https://en.wikipedia.org/wiki/Majority_rule
  */
 
-trait MajorityRule[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[C]] =
-    val candidateScoreMap = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
-    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > Rational(ballots.length) * MAJORITY_THRESHOLD).take(vacancies)
+sealed trait Majority[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
+    val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
+    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD).take(vacancies)
   end run
-end MajorityRule
+end Majority
 
-final class Majority[C <: Candidate] extends MajorityRule[C, Ballot[C]]
+case object  Majority:
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
+    new Majority[CC, BB]{}.run(ballots, candidates, vacancies)
