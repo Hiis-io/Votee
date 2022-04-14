@@ -20,7 +20,7 @@ trait PreferentialElection[C <: Candidate, B <: Ballot[C]] extends Election[C, B
     //We are interested only in the first valid candidate in the ballot
     ballots.foreach { ballot =>
       ballot.preferences.find(candidates.contains(_)) match {
-        case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
+        case Some(candidate) => candidateScoreMap(candidate) = ballot.weight * Rational(1, ballots.length) + candidateScoreMap.getOrElse(candidate, Rational(0))
         case _ =>
       }
     }
@@ -33,7 +33,7 @@ trait PreferentialElection[C <: Candidate, B <: Ballot[C]] extends Election[C, B
     //We are interested only in the last valid candidate in the ballot
     ballots.foreach { ballot =>
       ballot.preferences.findLast(candidates.contains(_)) match {
-        case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
+        case Some(candidate) => candidateScoreMap(candidate) = ballot.weight * Rational(1, ballots.length) + candidateScoreMap.getOrElse(candidate, Rational(0))
         case _ =>
       }
     }

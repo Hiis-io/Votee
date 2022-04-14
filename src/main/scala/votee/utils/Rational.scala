@@ -33,32 +33,49 @@ class Rational(x: Int, y: Int) {
   def neg = new Rational(-numerator, denominator)
   def unary_- : Rational = neg
 
+  //Subtraction
   def sub(r: Rational): Rational = add(r.neg)
 
   def -(r: Rational): Rational = sub(r)
 
+  //Multiplication
   def mult(r: Rational) =
     new Rational(numerator * r.numerator, denominator * r.denominator)
 
   def *(r: Rational): Rational = mult(r)
 
+  //Division
   def div(r: Rational) =
     new Rational(numerator * r.denominator, denominator * r.numerator)
 
   def /(r: Rational): Rational = div(r)
 
+  //Less than
   def less(r: Rational): Boolean = numerator * r.denominator < r.numerator * denominator
 
   def <(r: Rational): Boolean = less(r)
+  
+  def <=(r: Rational): Boolean = less(r) || equals(r)
 
+  //Greater than
   def more(r: Rational): Boolean = numerator * r.denominator > r.numerator * denominator
 
   def >(r: Rational): Boolean = more(r)
+  
+  def >=(r: Rational): Boolean = more(r) || equals(r)
+  
+  //Equality
+  def equals(r: Rational): Boolean = numerator == r.numerator && denominator == r.denominator
+  
+  def ==(r: Rational): Boolean = equals(r)
 
+  //Maximum
   def max(r: Rational): Rational = if (less(r)) r else this
 
+  //Minimum
   def min(r: Rational): Rational = if (more(r)) r else this
 
+  //Inverse
   def inv: Rational = new Rational(denominator, numerator)
   def unary_/ : Rational = inv
 
