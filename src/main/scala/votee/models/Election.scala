@@ -9,7 +9,7 @@ import scala.collection.mutable
  */
 
 trait Election[C <: Candidate, B <: Ballot[C], W <: Winner[C]]:
-  def run[CC <: C, BB <: B](ballots: List[BB], candidates: List[CC], vacancies: Int): List[W]
+  def run(ballots: List[B], candidates: List[C], vacancies: Int): List[W]
 
 
 trait PreferentialElection[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:
