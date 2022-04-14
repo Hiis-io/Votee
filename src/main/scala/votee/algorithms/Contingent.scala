@@ -15,7 +15,7 @@ sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElec
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
 
     val sortedTotals: List[(C, Rational)] = candidateScoreMap.toList.sortWith(_._2 > _._2)
-    if sortedTotals.head._2 > MAJORITY_THRESHOLD * Rational(ballots.length) then
+    if sortedTotals.head._2 > MAJORITY_THRESHOLD then
       List(Winner(sortedTotals.head))
     else
       val firstRoundCandidates: List[C] = sortedTotals.take(2).map(_._1)
@@ -23,7 +23,7 @@ sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElec
 
       ballots.filterNot(ballot => firstRoundCandidates.contains(ballot.preferences.head)).foreach { ballot =>
         ballot.preferences.find(firstRoundCandidates.contains(_)) match {
-          case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
+          case Some(candidate) => candidateScoreMap(candidate) = ballot.weight * Rational(1, ballots.length) + candidateScoreMap.getOrElse(candidate, Rational(0))
           case _ =>
         }
       }
