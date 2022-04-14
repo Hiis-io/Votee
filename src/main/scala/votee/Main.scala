@@ -1,6 +1,6 @@
 package votee
 
-import votee.algorithms.Majority
+import votee.algorithms.{Majority, Veto}
 import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate}
 import votee.utils.Rational
 
@@ -14,6 +14,6 @@ object Main extends App {
     b,
     c
   )
-  val winner = Majority.run(ballots, candidates, 2)
+  val winner = Veto.run(ballots, candidates, 2)
   println(s"Winner is: ${winner}")
 } 
