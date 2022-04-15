@@ -14,7 +14,7 @@ sealed trait SuperMajority[C <: Candidate, B <: Ballot[C]](majorityPercentage: R
   require(!(majorityPercentage < Rational(1,2)) && !(majorityPercentage > Rational(1) ))
   override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
-    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > majorityPercentage).take(vacancies)
+    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > Rational(ballots.length) * majorityPercentage).take(vacancies)
   end run
 end SuperMajority
 

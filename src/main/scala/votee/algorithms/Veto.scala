@@ -16,7 +16,7 @@ sealed trait Veto[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C
       for (preference <- ballot.preferences) {
         if !(preference == ballot.preferences.last && ballot.preferences.length > 1) then
           //Automatically assign a score of 1 to all candidates in the ballot except the last candidate as described by the veto rule
-          candidateScoreMap(preference) = candidateScoreMap.getOrElse(preference, Rational(0, 1)) + Rational(1, ballots.length)
+          candidateScoreMap(preference) = candidateScoreMap.getOrElse(preference, Rational(0, 1)) + Rational(1)
       }
     }
     candidateScoreMap.toList.sortWith(_._2 > _._2).take(vacancies).map(Winner(_))

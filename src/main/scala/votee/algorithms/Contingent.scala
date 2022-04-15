@@ -23,7 +23,7 @@ sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElec
 
       ballots.filterNot(ballot => firstRoundCandidates.contains(ballot.preferences.head)).foreach { ballot =>
         ballot.preferences.find(firstRoundCandidates.contains(_)) match {
-          case Some(candidate) => candidateScoreMap(candidate) = ballot.weight * Rational(1, ballots.length) + candidateScoreMap.getOrElse(candidate, Rational(0))
+          case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
           case _ =>
         }
       }

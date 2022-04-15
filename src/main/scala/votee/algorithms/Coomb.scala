@@ -16,7 +16,7 @@ sealed trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[
   @tailrec
   override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
-    if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD).take(1).nonEmpty then
+    if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then
       candidateScoreMap.toList.map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1)
     else
       val lastCandidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countLastVotes(ballots, candidates)

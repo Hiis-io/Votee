@@ -14,7 +14,7 @@ import scala.collection.mutable
 sealed trait Majority[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
-    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD).take(vacancies)
+    candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).filter(w => w.score > Rational(ballots.length) * MAJORITY_THRESHOLD).take(vacancies)
   end run
 end Majority
 

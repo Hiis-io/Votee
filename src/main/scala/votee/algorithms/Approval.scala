@@ -15,7 +15,7 @@ sealed trait Approval[C <: Candidate, B <: Ballot[C]] extends PreferentialElecti
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (ballot <- ballots)
       for(candidate <- ballot.preferences)
-        candidateScoreMap(candidate) = ballot.weight * Rational(1, ballots.length) + candidateScoreMap.getOrElse(candidate, Rational(0))
+        candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
 
     candidateScoreMap.toList.sortWith( _._2 > _._2 ).take(vacancies).map(Winner(_))
   end run
