@@ -6,15 +6,15 @@ import votee.utils.Rational
 
 object Main extends App {
   val candidates = List(PreferentialCandidate("abanda", "Abanda"), PreferentialCandidate("ludovic", "Ludovic"), PreferentialCandidate("temgoua", "Temgoua"))
-  val b = PreferentialBallot[PreferentialCandidate](5, Rational(3,2), candidates.reverse)
+  val b = PreferentialBallot[PreferentialCandidate](5, Rational(1), candidates.reverse)
   val c = b.excludeCandidates(candidates.take(1))
 //  println(b)
   val ballots = List(
-    PreferentialBallot(7, Rational(2), List(PreferentialCandidate("abanda", "Abanda"), PreferentialCandidate("ludovic", "Ludovic"))),
+    PreferentialBallot(7, Rational(1), List(PreferentialCandidate("abanda", "Abanda"), PreferentialCandidate("ludovic", "Ludovic"))),
     b,
     c,
     b.excludeCandidates(candidates.reverse.take(2))
   )
-  val winner = Majority.run(ballots, candidates, 3)
+  val winner = Veto.run(ballots, candidates, 3)
   println(s"Winner is: ${winner}")
 } 
