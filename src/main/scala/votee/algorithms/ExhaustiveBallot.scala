@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, PreferentialElection, TieResolver, Winner}
 
 import scala.annotation.tailrec
 
@@ -11,14 +11,14 @@ import scala.annotation.tailrec
 
 sealed trait ExhaustiveBallot[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   @tailrec
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
     val candidateScoreMap = countFirstVotes(ballots, candidates)
     val sortedCandidateList = candidateScoreMap.toList.sortWith(_._2 < _._2)
     if candidateScoreMap.size > 2 then
       val losingCandidate =  sortedCandidateList.head
       val newBallots: List[B] = List.empty
       ballots.foreach(_.excludeCandidates(List(losingCandidate._1)) :: newBallots)
-      run(newBallots, candidates.filter(_ != losingCandidate._1), vacancies)
+      run(newBallots, candidates.filter(_ != losingCandidate._1), vacancies)(tieResolver)
     else
       sortedCandidateList.map(Winner(_)).last::List()
   end run
@@ -26,4 +26,4 @@ end ExhaustiveBallot
 
 case object  ExhaustiveBallot:
   def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
-    new ExhaustiveBallot[CC, BB]{}.run(ballots, candidates, vacancies)
+    new ExhaustiveBallot[CC, BB]{}.run(ballots, candidates, vacancies)()

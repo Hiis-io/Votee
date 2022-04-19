@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, TieResolver, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.collection.mutable
  */
 
 sealed trait Veto[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
     for (ballot <- ballots) {
       for (preference <- ballot.preferences) {
@@ -25,4 +25,4 @@ end Veto
 
 case object  Veto:
   def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
-    new Veto[CC, BB]{}.run(ballots, candidates, vacancies)
+    new Veto[CC, BB]{}.run(ballots, candidates, vacancies)()

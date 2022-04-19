@@ -1,7 +1,7 @@
 package votee
 
-import votee.algorithms.{BordaCount, Contingent, ExhaustiveBallot, Majority, Veto}
-import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate}
+import votee.algorithms.{Approval, BordaCount, Contingent, ExhaustiveBallot, Majority, Veto}
+import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, TieResolver}
 import votee.utils.Rational
 
 object Main extends App {
@@ -15,6 +15,8 @@ object Main extends App {
     c,
     b.excludeCandidates(candidates.reverse.take(2))
   )
-  val winner = Veto.run(ballots, candidates, 3)
+
+  val tieResolution: TieResolver[PreferentialCandidate] = (candidateScores: List[(PreferentialCandidate, Rational)], vacancies: Int) => candidateScores.sortWith(_._2 < _._2).take(vacancies)
+  val winner = Approval.run(ballots, candidates, 2)(tieResolution)
   println(s"Winner is: ${winner}")
 } 

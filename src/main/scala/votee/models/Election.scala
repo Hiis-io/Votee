@@ -9,7 +9,14 @@ import scala.collection.mutable
  */
 
 trait Election[C <: Candidate, B <: Ballot[C], W <: Winner[C]]:
-  def run(ballots: List[B], candidates: List[C], vacancies: Int): List[W]
+  /**
+   * A naive Tie Resolver that takes the first N leading candidates.
+   * This doesn't take into consideration that some of the other candidates left out may have the same scores as the leading ones.
+   */
+  protected val DEFAULT_TIE_RESOLVER: TieResolver[C] = (candidateScores: List[(C, Rational)], vacancies: Int) => candidateScores.sortWith(_._2 > _._2).take(vacancies)
+  
+  def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[W]
+end Election
 
 
 trait PreferentialElection[C <: Candidate, B <: Ballot[C]] extends Election[C, B, Winner[C]]:

@@ -13,11 +13,3 @@ import votee.utils.Rational
  */
 trait TieResolver[C <: Candidate]:
   def resolve(candidateScores: List[(C, Rational)], vacancies: Int): List[(C, Rational)]
-
-/**
- * A naive Tie Resolver that takes the first N leading candidates.
- * This doesn't take into consideration that some of the other candidates left out may have the same scores as the leading ones.
- * @tparam C
- */
-trait TakeNTieResolver[C <: Candidate] extends TieResolver[C]:
-  override def resolve(candidateScores: List[(C, Rational)], vacancies: Int): List[(C, Rational)] = candidateScores.sortWith(_._2 > _._2).take(vacancies)

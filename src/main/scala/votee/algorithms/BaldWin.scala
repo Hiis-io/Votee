@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, TieResolver, Winner}
 import votee.utils.Rational
 
 import scala.annotation.tailrec
@@ -13,13 +13,13 @@ import scala.collection.mutable
 
 sealed trait BaldWin[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   @tailrec
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
     if candidates.length == 1 then
       bordaScores(ballots, candidates).toList.map(Winner(_))
     else
       // removing the lowest borda score candidate from the candidate list
       val lowestBordaCandidate = bordaScores(ballots, candidates).toList.sortWith(_._2 < _._2).head
-      run(ballots, candidates.filter(_ != lowestBordaCandidate._1), vacancies)
+      run(ballots, candidates.filter(_ != lowestBordaCandidate._1), vacancies)(tieResolver)
   end run
 
   private def bordaScores(ballots: List[B], candidates: List[C]): mutable.HashMap[C, Rational] =
@@ -40,4 +40,4 @@ end BaldWin
 
 case object  BaldWin:
   def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
-    new BaldWin[CC, BB]{}.run(ballots, candidates, vacancies)
+    new BaldWin[CC, BB]{}.run(ballots, candidates, vacancies)()

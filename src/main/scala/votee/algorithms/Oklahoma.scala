@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialElection, Winner}
+import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialElection, TieResolver, Winner}
 import votee.utils.Rational
 
 import scala.collection.mutable
@@ -12,7 +12,7 @@ import scala.collection.mutable
  */
  //TODO Fix Algorithm
 sealed trait Oklahoma[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int): List[Winner[C]] = ???
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] = ???
 
   def oklahomaTotals(ballots: List[B], candidates: List[C], candidateScoresMap: mutable.HashMap[C, Rational], multiplier: Rational):List[(Candidate, Rational)] = {
     val scoresMap = candidateScoresMap
