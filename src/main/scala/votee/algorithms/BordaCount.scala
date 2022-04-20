@@ -11,7 +11,7 @@ import scala.collection.mutable
  */
 
 sealed trait BordaCount[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(using tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
     val candidateScoreMap = new mutable.HashMap[C, Rational]
 
     //Calculate Border Scores for the candidates
@@ -23,10 +23,9 @@ sealed trait BordaCount[C <: Candidate, B <: Ballot[C]] extends PreferentialElec
               (Rational(candidates.length - 1 - candidateWithIndex._2) * ballot.weight)
         })
     }
-    candidateScoreMap.toList.sortWith(_._2 > _._2).take(vacancies).map(Winner(_))
+    resolveTies(candidateScoreMap.toList.sortWith(_._2 > _._2)).take(vacancies).map(Winner(_))
   end run
 end BordaCount
 
 case object  BordaCount:
-  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
-    new BordaCount[CC, BB]{}.run(ballots, candidates, vacancies)()
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int)(using tieResolver: TieResolver[CC] = Election.TieResolvers.doNothingTieResolver[CC]): List[Winner[CC]] = new BordaCount[CC, BB]{}.run(ballots, candidates, vacancies)
