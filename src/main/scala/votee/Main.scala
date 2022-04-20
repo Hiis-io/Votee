@@ -1,8 +1,10 @@
 package votee
 
 import votee.algorithms.{Approval, BordaCount, Contingent, ExhaustiveBallot, Majority, Veto}
-import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, TieResolver}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, TieResolver}
 import votee.utils.Rational
+
+import scala.util.Random
 
 object Main extends App {
   val candidates = List(PreferentialCandidate("abanda", "Abanda"), PreferentialCandidate("ludovic", "Ludovic"), PreferentialCandidate("temgoua", "Temgoua"))
@@ -16,7 +18,8 @@ object Main extends App {
     b.excludeCandidates(candidates.reverse.take(2))
   )
 
-  val tieResolution: TieResolver[PreferentialCandidate] = (candidateScores: List[(PreferentialCandidate, Rational)], vacancies: Int) => candidateScores.sortWith(_._2 < _._2).take(vacancies)
-  val winner = Approval.run(ballots, candidates, 2)(tieResolution)
+//  val tieResolution: TieResolver[PreferentialCandidate] = (candidateScores: List[(PreferentialCandidate, Rational)], vacancies: Int) => candidateScores.sortWith(_._2 < _._2).take(vacancies)
+  given tieResolver: TieResolver[PreferentialCandidate] = Election.TieResolvers.randomTieResolver
+  val winner = Approval.run(ballots, candidates, 2)
   println(s"Winner is: ${winner}")
 } 
