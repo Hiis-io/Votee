@@ -16,7 +16,7 @@ sealed trait Approval[C <: Candidate, B <: Ballot[C]] extends PreferentialElecti
     for (ballot <- ballots)
       for(candidate <- ballot.preferences)
         candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
-    resolveTies(candidateScoreMap.toList.sortWith( _._2 > _._2 ), tieResolver).take(vacancies).map(Winner(_))
+    resolveTies(candidateScoreMap.toList.sortWith( _._2 > _._2 )).take(vacancies).map(Winner(_))
   end run
 end Approval
 

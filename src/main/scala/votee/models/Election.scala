@@ -12,14 +12,17 @@ trait Election[C <: Candidate, B <: Ballot[C], W <: Winner[C]]:
 
   protected val DEFAULT_TIE_RESOLVER: TieResolver[C] = Election.TieResolvers.doNothingTieResolver
 
-  protected final def resolveTies(candidateScores: List[(C, Rational)], tieResolver: TieResolver[C]):List[(C, Rational)] =
-    val sorted = candidateScores.sortWith(_._2 > _._2)
-
+  protected final def resolveTies(sortedCandidateScores: List[(C, Rational)])(using tieResolver: TieResolver[C]):List[(C, Rational)] =
     def partition(list: List[(C, Rational)]): List[(C, Rational)] =
       if list.isEmpty || list.length == 1 then list
       else list.partition(_._2 == list.head._2) match
-        case (bigger, smaller) => tieResolver.resolve(bigger) ++ partition(smaller)
-    partition(sorted)
+        case (left, right) => tieResolver.resolve(left) ++ partition(right)
+    end partition
+
+    if tieResolver == DEFAULT_TIE_RESOLVER then sortedCandidateScores
+    else partition(sortedCandidateScores)
+  end resolveTies
+
 
 
   def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[W]
