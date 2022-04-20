@@ -11,10 +11,10 @@ import scala.collection.mutable
  */
 
 sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(using tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
 
-    val sortedTotals: List[(C, Rational)] = candidateScoreMap.toList.sortWith(_._2 > _._2)
+    val sortedTotals: List[(C, Rational)] = resolveTies(candidateScoreMap.toList.sortWith(_._2 > _._2))
     if sortedTotals.head._2 > MAJORITY_THRESHOLD then
       List(Winner(sortedTotals.head))
     else
@@ -27,12 +27,9 @@ sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElec
           case _ =>
         }
       }
-      List(candidateScoreMap.toList.sortWith(_._2 > _._2).map(Winner(_)).head)
+      List(resolveTies(candidateScoreMap.toList.sortWith(_._2 > _._2)).map(Winner(_)).head)
   end run
 end Contingent
 
 case object  Contingent:
-  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
-    new Contingent[CC, BB]{}.run(ballots, candidates, vacancies)()
-
-
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int)(using tieResolver: TieResolver[CC] = Election.TieResolvers.doNothingTieResolver[CC]): List[Winner[CC]] = new Contingent[CC, BB]{}.run(ballots, candidates, vacancies)

@@ -9,7 +9,8 @@ import votee.utils.Rational
 /**
  * TieResolver describes the contract on how to resolve candidates with the same scores.
  * Given a list of candidates with the same score return a new list with a desired ordering.
- * The resolve function must satisfy the following conditions
+ * 
+ * The resolve function must satisfy the following conditions:
  * 
  * 1. Total number of elements in the original list should be same as that of returned list
  * 

@@ -19,8 +19,8 @@ object Main extends App {
   )
 
 //  val tieResolution: TieResolver[PreferentialCandidate] = (candidateScores: List[(PreferentialCandidate, Rational)], vacancies: Int) => candidateScores.sortWith(_._2 < _._2).take(vacancies)
-  given tieResolver: TieResolver[PreferentialCandidate] = Election.TieResolvers.reverseTieResolver[PreferentialCandidate]
-  val winner = BordaCount.run(ballots, candidates, 2)
+  given tieResolver: TieResolver[PreferentialCandidate] = Election.TieResolvers.doNothingTieResolver[PreferentialCandidate]
+  val winner = Contingent.run(ballots, candidates, 2)
   println(s"Winner is: ${winner}")
 
 //  def mySort(list: List[(Int, String)]): List[(Int, String)] =
