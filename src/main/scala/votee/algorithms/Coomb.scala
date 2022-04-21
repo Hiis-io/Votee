@@ -1,6 +1,6 @@
 package votee.algorithms
 
-import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, PreferentialElection, TieResolver, Winner}
+import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, PreferentialElection, TieResolver, Winner}
 import votee.utils.Rational
 
 import scala.annotation.tailrec
@@ -14,19 +14,18 @@ import scala.collection.mutable
 
 sealed trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   @tailrec
-  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
+  override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(using tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
     val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
     if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then
-      candidateScoreMap.toList.map(Winner(_)).filter(w => w.score > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1)
+      resolveTies(candidateScoreMap.toList.filter(w => w._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).sortWith(_._2 > _._2)).map(Winner(_)).take(1)
     else
       val lastCandidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countLastVotes(ballots, candidates)
-      val highestRankingLast: C = lastCandidateScoreMap.toList.sortWith(_._2 > _._2).head._1
+      val highestRankingLast: C = resolveTies(lastCandidateScoreMap.toList.sortWith(_._2 > _._2)).head._1
 
-      run(ballots, candidates.filterNot(_ == highestRankingLast), vacancies)(tieResolver)
+      run(ballots, candidates.filterNot(_ == highestRankingLast), vacancies)
   end run
 end Coomb
 
 case object  Coomb:
-  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int): List[Winner[CC]] =
-    new Coomb[CC, BB]{}.run(ballots, candidates, vacancies)()
+  def run[CC <: Candidate, BB <: Ballot[CC]](ballots: List[BB], candidates: List[CC], vacancies: Int)(using tieResolver: TieResolver[CC] = Election.TieResolvers.doNothingTieResolver[CC]): List[Winner[CC]] = new Coomb[CC, BB]{}.run(ballots, candidates, vacancies)
 

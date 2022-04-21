@@ -1,6 +1,6 @@
 package votee
 
-import votee.algorithms.{Approval, BaldWin, BordaCount, Contingent, ExhaustiveBallot, Majority, Veto}
+import votee.algorithms.{Approval, BaldWin, BordaCount, Contingent, Coomb, ExhaustiveBallot, Majority, Veto}
 import votee.models.{Ballot, Candidate, Election, PreferentialBallot, PreferentialCandidate, TieResolver}
 import votee.utils.Rational
 
@@ -14,13 +14,12 @@ object Main extends App {
   val ballots = List(
     PreferentialBallot(7, Rational(1), List(PreferentialCandidate("abanda", "Abanda"), PreferentialCandidate("ludovic", "Ludovic"))),
     b,
-    c,
-    b.excludeCandidates(candidates.reverse.take(2))
+    c
   )
 
 //  val tieResolution: TieResolver[PreferentialCandidate] = (candidateScores: List[(PreferentialCandidate, Rational)], vacancies: Int) => candidateScores.sortWith(_._2 < _._2).take(vacancies)
   given tieResolver: TieResolver[PreferentialCandidate] = Election.TieResolvers.doNothingTieResolver[PreferentialCandidate]
-  val winner = Contingent.run(ballots, candidates, 2)
+  val winner = Coomb.run(ballots, candidates, 2)
   println(s"Winner is: ${winner}")
 
 //  def mySort(list: List[(Int, String)]): List[(Int, String)] =
