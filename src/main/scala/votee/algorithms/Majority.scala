@@ -2,7 +2,7 @@ package votee.algorithms
 
 import votee.algorithms
 import votee.models.{Ballot, BallotOps, Candidate, Election, PreferentialElection, TieResolver, Winner}
-import votee.utils.Rational
+import spire.math.Rational
 
 import scala.collection.mutable
 
