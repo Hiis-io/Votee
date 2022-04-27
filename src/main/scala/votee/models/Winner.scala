@@ -1,6 +1,6 @@
 package votee.models
 
-import votee.utils.Rational
+import spire.math.Rational
 
 
 /**

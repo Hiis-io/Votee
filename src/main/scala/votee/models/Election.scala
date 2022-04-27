@@ -39,7 +39,7 @@ object Election:
   object TieResolvers:
     import scala.util.Random
     /**
-     * A naive tie Resolver that shuffles the list tied candidates.
+     * A naive tie Resolver that shuffles the list of tied candidates.
      * While this is a fairer method of resolving ties, it is worth noting that identical elections may produce different results if some candidates have the same score.
      * @see [[votee.models.TieResolver]]
      */
