@@ -15,7 +15,7 @@ trait Election[C <: Candidate, B <: Ballot[C], W <: Winner[C]]:
   /**
    * A method that resolve ties for candidates with equal scores using the given TieResolver
    * @see [[votee.models.TieResolver]]
-   * @see [[Election.TieResolvers]]
+   * @see [[Election.TieResolvers.doNothingTieResolver]]
    * @param sortedCandidateScores A sorted list of Candidates and their scores
    * @param tieResolver A Tie Resolver
    * @return A new list of candidates and their scores
