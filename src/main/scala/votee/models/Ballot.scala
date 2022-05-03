@@ -35,7 +35,7 @@ object PreferentialBallot {
         val weight = (ballot \ "weight").as[Double]
         val preferences = (ballot \ "preferences").as[List[A]]
 
-        JsSuccess(new PreferentialBallot[A](id, Rational(weight), preferences))
+        JsSuccess(PreferentialBallot(id, Rational(weight), preferences))
       } match {
         case Success(value) => value
         case Failure(exception) => JsError(exception.getMessage)
