@@ -36,7 +36,7 @@ Follow the steps bellow to add votee to your scala application.
 1. In the root directory of your scala application create a directory called `lib`
 2. Copy the JAR file(`votee-x.y.z.jar`) from [`output`](./output) to your `lib` directory.
 3. Since the dependencies are not provided with the jar file, add the following to your build.sbt
-    ```
+    ```scala
     libraryDependencies ++= Seq(
       "org.scalanlp" %% "breeze" % "2.0.1-RC1",
       "com.typesafe.play" %% "play-json" % "2.10.0-RC6"
@@ -89,6 +89,32 @@ Follow the steps bellow to add votee to your scala application.
           override def includeCandidates(candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences ++ candidates)
         end PreferentialBallot
       ```
+   3. TieResolver: There are 3 implementations of TieResolver which you can simply import from `Election.TieResolvers`. TieResolvers describe how the algorithms should resolve ties, which is absolute necessary when running the election. Below are the different TieResolvers already implemented in the library.
+        1. DoNothingTieResolver (Default)
+        2. RandomTieResolver
+        3. ReverseTieResolver
+      
+      If for some reason you will like to resolve ties differently from what is proposed above, you need to implement the `TieResolver trait`. Below is the contract
+      ```scala
+        import spire.math.Rational
+        import votee.models.Candidate
+      
+        /**
+         * TieResolver describes the contract on how to resolve candidates with the same scores.
+         * 
+         * Given a list of candidates with the same score return a new list with a desired ordering.
+         *
+         * The resolve function must satisfy the following conditions:
+         *
+         * 1. Total number of elements in the original list should be same as that of returned list
+         * 
+         * 2. All elements in the original list should be found in the returned list
+         * @tparam C
+         */
+         trait TieResolver[C <: Candidate]:
+           def resolve(candidateScores: List[(C, Rational)]): List[(C, Rational)]
+        ```
+      
 ## Development
 
 
