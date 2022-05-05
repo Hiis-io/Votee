@@ -72,7 +72,7 @@ Follow the steps bellow to add votee to your scala application.
       }
    ```
 ### Extending the core components
-   1. Candidate: If the current implementation of the Candidate doesn't suit your needs you can create your by extending the candidate class 
+   1. Candidate: If the current implementation of the Candidate doesn't suit your needs you can create yours by extending the candidate class 
       ```scala
          import votee.models.Candidate
          final case class MyCandidate(override val id: String, name: String, ...) extends Candidate(id)
@@ -89,12 +89,12 @@ Follow the steps bellow to add votee to your scala application.
           override def includeCandidates(candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences ++ candidates)
         end PreferentialBallot
       ```
-   3. TieResolver: There are 3 implementations of TieResolver which you can simply import from `Election.TieResolvers`. TieResolvers describe how the algorithms should resolve ties, which is absolute necessary when running the election. Below are the different TieResolvers already implemented in the library.
+   3. TieResolver: There are 3 implementations of TieResolver which you can simply import from `Election.TieResolvers`. TieResolvers describe how the algorithms should resolve ties, which is absolutely necessary when running the election. Below are the different TieResolvers already implemented in the library.
         1. DoNothingTieResolver (Default)
         2. RandomTieResolver
         3. ReverseTieResolver
       
-      If for some reason you will like to resolve ties differently from what is proposed above, you need to implement the `TieResolver trait`. Below is the contract
+      If for some reason you would like to resolve ties differently from what is proposed above, you need to implement the `TieResolver trait`. Below is the contract
       ```scala
         import spire.math.Rational
         import votee.models.Candidate
