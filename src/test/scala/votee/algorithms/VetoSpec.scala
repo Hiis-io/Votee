@@ -12,7 +12,7 @@ class VetoSpec extends AnyFlatSpec {
 
   val expectedWinners = List(PreferentialCandidate("d", "D"))
 
-  "Majority Algorithm Test" should
+  "Veto Algorithm Test" should
     "verify result" in
     assert(algorithmVerification("01-candidates.json", "03-ballots.json") === expectedWinners)
 
