@@ -10,7 +10,7 @@ import votee.utils.Parser
 
 class BordaCountSpec extends AnyFlatSpec {
 
-  val expectedWinners = List(PreferentialCandidate("d", "D"))
+  val expectedWinners = List(PreferentialCandidate("a", "A"))
 
   "Borda Count Algorithm Test" should
     "verify result" in
@@ -21,5 +21,5 @@ class BordaCountSpec extends AnyFlatSpec {
     val candidates: List[PreferentialCandidate] = Parser.parseCandidates("src/main/resources/" + candidatesFile)
     val ballots: List[PreferentialBallot[PreferentialCandidate]] = Parser.parseBallot("src/main/resources/" + ballotFile)
 
-    Veto.run(ballots, candidates, 1).map(_.candidate)
+    BordaCount.run(ballots, candidates, 1).map(_.candidate)
 }

@@ -21,5 +21,5 @@ class ApprovalSpec extends AnyFlatSpec {
     val candidates: List[PreferentialCandidate] = Parser.parseCandidates("src/main/resources/" + candidatesFile)
     val ballots: List[PreferentialBallot[PreferentialCandidate]] = Parser.parseBallot("src/main/resources/" + ballotFile)
 
-    Veto.run(ballots, candidates, 1).map(_.candidate)
+    Approval.run(ballots, candidates, 1).map(_.candidate)
 }

@@ -1,4 +1,3 @@
-import language.postfixOps
 
 name := "votee"
 
@@ -27,3 +26,5 @@ libraryDependencies ++= Seq(
   "org.scalanlp" %% "breeze" % "2.0.1-RC1",
   "com.typesafe.play" %% "play-json" % "2.10.0-RC6"
 )
+
+Test / classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.ScalaLibrary
