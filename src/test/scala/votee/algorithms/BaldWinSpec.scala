@@ -8,11 +8,11 @@ import votee.utils.Parser
  * Created by Abanda Ludovic on 09/05/2022.
  */
 
-class ContingentSpec extends AnyFlatSpec {
+class BaldWinSpec extends AnyFlatSpec {
 
   val expectedWinners = List(PreferentialCandidate("a", "A"))
 
-  "Contingent Algorithm Test" should
+  "Bald Win Algorithm Test" should
     "verify result" in
     assert(algorithmVerification("01-candidates.json", "03-ballots.json") === expectedWinners)
 
@@ -21,5 +21,5 @@ class ContingentSpec extends AnyFlatSpec {
     val candidates: List[PreferentialCandidate] = Parser.parseCandidates("src/main/resources/" + candidatesFile)
     val ballots: List[PreferentialBallot[PreferentialCandidate]] = Parser.parseBallot("src/main/resources/" + ballotFile)
 
-    Contingent.run(ballots, candidates, 1).map(_.candidate)
+    BaldWin.run(ballots, candidates, 1).map(_.candidate)
 }
