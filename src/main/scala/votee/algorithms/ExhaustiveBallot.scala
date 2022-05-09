@@ -1,5 +1,6 @@
 package votee.algorithms
 
+import com.typesafe.scalalogging.LazyLogging
 import votee.models.{Ballot, Candidate, PreferentialBallot, PreferentialCandidate, PreferentialElection, TieResolver, Winner}
 
 import scala.annotation.tailrec
@@ -16,9 +17,8 @@ sealed trait ExhaustiveBallot[C <: Candidate, B <: Ballot[C]] extends Preferenti
     val sortedCandidateList = candidateScoreMap.toList.sortWith(_._2 < _._2)
     if candidateScoreMap.size > 2 then
       val losingCandidate =  sortedCandidateList.head
-      val newBallots: List[B] = List.empty
-      ballots.foreach(_.excludeCandidates(List(losingCandidate._1)) :: newBallots)
-      run(newBallots, candidates.filter(_ != losingCandidate._1), vacancies)(tieResolver)
+      val newBallots = for (ballot <- ballots) yield ballot.excludeCandidates(List(losingCandidate._1))
+      run(newBallots.asInstanceOf[List[B]], candidates.filter(_ != losingCandidate._1), vacancies)(tieResolver)
     else
       sortedCandidateList.map(Winner(_)).last::List()
   end run
