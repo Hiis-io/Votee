@@ -66,12 +66,12 @@ trait PreferentialElection[C <: Candidate, B <: Ballot[C]] extends Election[C, B
 
   final def countFirstVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
     //We are interested only in the first valid candidate in the ballot
-    ballots.flatMap(ballot => ballot.preferences.find(candidates.contains(_)).map((_, ballot.weight))).groupMapReduce(_._1)(_._2)(_ + _)
+    ballots.flatMap(ballot => ballot.preferences.find(candidates.contains).map((_, ballot.weight))).groupMapReduce(_._1)(_._2)(_ + _)
   end countFirstVotes
 
   final def countLastVotes(ballots: List[B], candidates: List[C]): Map[C, Rational] =
     //We are interested only in the last valid candidate in the ballot
-    ballots.flatMap(ballot => ballot.preferences.findLast(candidates.contains(_)).map((_, ballot.weight))).groupMapReduce(_._1)(_._2)(_ + _)
+    ballots.flatMap(ballot => ballot.preferences.findLast(candidates.contains).map((_, ballot.weight))).groupMapReduce(_._1)(_._2)(_ + _)
   end countLastVotes
   
 end PreferentialElection

@@ -22,9 +22,7 @@ sealed trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[
         resolveTies(candidateScoreMap.toList.filter(w => w._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).sortWith(_._2 > _._2)).map(Winner(_)).take(1)
       else
         val lastCandidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countLastVotes(ballots, candidates)
-        println(s"Last candidates Score Map: $lastCandidateScoreMap")
         val highestRankingLast: C = resolveTies(lastCandidateScoreMap.toList.sortWith(_._2 > _._2)).head._1
-        println(s"Highest ranking last: $highestRankingLast")
         run(ballots, candidates.filterNot(_ == highestRankingLast), vacancies)
   end run
 end Coomb

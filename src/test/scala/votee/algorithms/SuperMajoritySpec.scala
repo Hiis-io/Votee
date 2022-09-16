@@ -22,4 +22,5 @@ class SuperMajoritySpec extends AnyFlatSpec {
     val ballots: List[PreferentialBallot[PreferentialCandidate]] = Parser.parseBallot("src/main/resources/" + ballotFile)
 
     SuperMajority.run(ballots, candidates, 1, Rational(6,10)).map(_.candidate)
+  end algorithmVerification
 }

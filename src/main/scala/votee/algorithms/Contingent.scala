@@ -19,8 +19,6 @@ sealed trait Contingent[C <: Candidate, B <: Ballot[C]] extends PreferentialElec
       List(Winner(sortedTotals.head))
     else
       val firstRoundCandidates: List[C] = sortedTotals.take(2).map(_._1)
-      val excludedCandidates = candidates.filterNot(firstRoundCandidates.contains(_))
-
       ballots.filterNot(ballot => firstRoundCandidates.contains(ballot.preferences.head)).foreach { ballot =>
         ballot.preferences.find(firstRoundCandidates.contains(_)) match {
           case Some(candidate) => candidateScoreMap(candidate) = ballot.weight + candidateScoreMap.getOrElse(candidate, Rational(0))
