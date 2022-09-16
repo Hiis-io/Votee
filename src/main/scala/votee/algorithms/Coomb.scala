@@ -15,8 +15,7 @@ import scala.collection.mutable
 sealed trait Coomb[C <: Candidate, B <: Ballot[C]] extends PreferentialElection[C, B]:
   @tailrec
   override final def run(ballots: List[B], candidates: List[C], vacancies: Int)(using tieResolver: TieResolver[C] = DEFAULT_TIE_RESOLVER): List[Winner[C]] =
-    if candidates.isEmpty then
-      List.empty
+    if candidates.isEmpty then List.empty
     else
       val candidateScoreMap: mutable.HashMap[C, Rational] = mutable.HashMap.empty ++ countFirstVotes(ballots, candidates)
       if candidateScoreMap.toList.filter(_._2 > MAJORITY_THRESHOLD * Rational(ballots.length)).take(1).nonEmpty then

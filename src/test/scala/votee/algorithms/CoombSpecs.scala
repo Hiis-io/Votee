@@ -22,4 +22,6 @@ class CoombSpecs extends AnyFlatSpec {
     val ballots: List[PreferentialBallot[PreferentialCandidate]] = Parser.parseBallot("src/main/resources/" + ballotFile)
 
     Coomb.run(ballots, candidates, 1).map(_.candidate)
+  end algorithmVerification
+
 }

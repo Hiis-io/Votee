@@ -11,9 +11,10 @@ import scala.util.{Failure, Success, Try}
  */
 
 trait BallotOps[C <: Candidate]:
-  type B <: Ballot[C]
-  def excludeCandidates(candidates: List[C]): B
-  def includeCandidates(candidates: List[C]): B
+  type T <: Ballot[C]
+
+  def --(candidates: List[C]): T
+  def ++(candidates: List[C]): T
 end BallotOps
 
 abstract class Ballot[C <: Candidate](val id: Int, val weight: Rational, val preferences: List[C]) extends BallotOps[C]:
@@ -21,11 +22,13 @@ abstract class Ballot[C <: Candidate](val id: Int, val weight: Rational, val pre
 end Ballot
 
 final case class PreferentialBallot[C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), override val preferences: List[C])
-  extends Ballot[C](id, weight, preferences):
-  override type B = PreferentialBallot[C]
-  override def excludeCandidates(candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences.filterNot(candidates.contains(_)))
-  override def includeCandidates(candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences ++ candidates)
+  extends Ballot[C](id, weight, preferences) with BallotOps[C]:
+  override type T = PreferentialBallot[C]
+
+  override def -- (candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences.filterNot(candidates.contains(_)))
+  override def ++ (candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences ++ candidates)
 end PreferentialBallot
+
 
 object PreferentialBallot {
   given PreferentialBallotReads[A <: Candidate](using Reads[A]): Reads[PreferentialBallot[A]] = {
