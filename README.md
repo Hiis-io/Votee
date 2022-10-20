@@ -35,14 +35,8 @@ Follow the steps bellow to add votee to your scala application.
 
 1. In the root directory of your scala application create a directory called `lib`
 2. Copy the JAR file(`votee-x.y.z.jar`) from [`output`](./output) to your `lib` directory.
-3. Since the dependencies are not provided with the jar file, add the following to your build.sbt
-    ```scala
-    libraryDependencies ++= Seq(
-      "org.scalanlp" %% "breeze" % "2.0.1-RC1",
-      "com.typesafe.play" %% "play-json" % "2.10.0-RC6"
-    )
-   ```
-4. Test the application with the following code snippet
+
+3. Test the application with the following code snippet
    ```scala
       import spire.math.Rational
       import votee.algorithms.Majority

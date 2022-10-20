@@ -1,30 +1,22 @@
 
-name := "votee"
+name := "Votee"
 
-organization := "Hiis.io"
+version := "0.1.0-RC1"
 
-version := "0.1.0-SNAPSHOT"
+organization := "io.hiis"
+
+organizationName := "Hiis"
+
+organizationHomepage := Some(new URL("https://www.hiis.io"))
 
 scalaVersion := "3.1.0"
 
-exportJars := true
+libraryDependencies ++= dependencies
 
-Compile / packageBin / publishArtifact := true
+assemblyJarName := "votee-0.1.0-RC1.jar"
 
-Compile / packageDoc / publishArtifact := true
-
-Compile / packageSrc / publishArtifact := true
-
-artifactName := { (sv: ScalaVersion, module: ModuleID, artifact: Artifact) =>
-  artifact.name + "-" + module.revision + "." + artifact.extension
-}
-
-libraryDependencies ++= Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.10",
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
-  "org.scalatest" %% "scalatest" % "3.2.11" % "test",
-  "org.scalanlp" %% "breeze" % "2.0.1-RC1",
-  "com.typesafe.play" %% "play-json" % "2.10.0-RC6"
+lazy val dependencies = Seq(
+  "org.scalanlp" %% "breeze" % "2.1.0",
+  "org.scalatest" %% "scalatest" % "3.2.14" % "test",
+  "com.typesafe.play" %% "play-json" % "2.10.0-RC6" % "test"
 )
-
-Test / classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.ScalaLibrary
