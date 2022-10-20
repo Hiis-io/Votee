@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "b",
+        "name": "B"
+      },
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "c",
+        "name": "C"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "c",
+        "name": "C"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "a",
+        "name": "A"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "weight": 1,
+    "preferences": [
+      {
+        "id": "d",
+        "name": "D"
+      },
+      {
+        "id": "a",
+        "name": "A"
+      },
+      {
+        "id": "b",
+        "name": "B"
+      },
+      {
+        "id": "c",
+        "name": "C"
+      }
+    ]
+  }
+]
