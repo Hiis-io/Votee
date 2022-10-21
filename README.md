@@ -76,11 +76,13 @@ Follow the steps bellow to add votee to your scala application.
         import votee.models.{Ballot, Candidate}
         import spire.math.Rational
       
-        final case class PreferentialBallot[C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), override val preferences: List[C])
-        extends Ballot[C](id, weight, preferences):
-          override type B = PreferentialBallot[C]
-          override def excludeCandidates(candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences.filterNot(candidates.contains(_)))
-          override def includeCandidates(candidates: List[C]): PreferentialBallot[C] = PreferentialBallot(id, weight, preferences ++ candidates)
+        final case class PreferentialBallot[+C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), override val preferences: Seq[C])
+            extends Ballot[C, PreferentialBallot](id, weight, preferences) :
+      
+            override def --[CC >: C <: Candidate](candidates: Seq[CC]): PreferentialBallot[CC] = PreferentialBallot(id, weight, preferences.filterNot(candidates.contains(_)))
+      
+            override def ++[CC >: C <: Candidate](candidates: Seq[CC]): PreferentialBallot[CC] = PreferentialBallot(id, weight, candidates ++ preferences)
+      
         end PreferentialBallot
       ```
    3. TieResolver: There are 3 implementations of TieResolver which you can simply import from `Election.TieResolvers`. TieResolvers describe how the algorithms should resolve ties, which is absolutely necessary when running the election. Below are the different TieResolvers already implemented in the library.
