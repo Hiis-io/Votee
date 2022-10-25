@@ -2,17 +2,17 @@ package votee.models
 
 import spire.math.Rational
 
-
-/**
- * Created by Abanda Ludovic on 29/03/2022.
- */
+/** Created by Abanda Ludovic on 29/03/2022. */
 
 /**
  * Election winner
- * @param candidate winning candidate
- * @param score candidates total score
+ * @param candidate
+ *   winning candidate
+ * @param score
+ *   candidates total score
  *
- * @tparam C candidate type
+ * @tparam C
+ *   candidate type
  */
 final case class Winner[C <: Candidate](candidate: C, score: Rational)
 
