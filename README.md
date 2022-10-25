@@ -3,7 +3,7 @@
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/hiis-io/votee?color=violet&label=Pull%20Requests)
 ![Scala Version](https://img.shields.io/badge/Scala-3.1.0-red)
 ![SBT Version](https://img.shields.io/badge/SBT-1.6.2-blueviolet)
-![Scala CI](https://github.com/github/docs/actions/workflows/scala.yml/badge.svg)
+![Scala CI](https://github.com/hiis-io/votee/actions/workflows/scala.yml/badge.svg)
 
 ## Intro
 Votee is a library of data structures and algorithms for counting votes in Elections. This library is inspired from the Agora vote counting library. It is a lightweight vote counting library implemented in scala 3.
