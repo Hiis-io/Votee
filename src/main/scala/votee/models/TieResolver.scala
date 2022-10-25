@@ -13,9 +13,9 @@ import spire.math.Rational
  * The resolve function must satisfy the following conditions:
  * 
  * 1. Total number of elements in the original list should be same as that of returned list
- * 
  * 2. All elements in the original list should be found in the returned list
  * @tparam C
+ * @see [[Election.TieResolvers]]
  */
 trait TieResolver[C <: Candidate]:
   def resolve(candidateScores: Seq[(C, Rational)]): Seq[(C, Rational)]

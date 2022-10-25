@@ -6,19 +6,23 @@ import spire.math.Rational
  * Created by Abanda Ludovic on 29/03/2022.
  */
 
-trait Election[C <: Candidate, B[+CC >: C <: Candidate] <: Ballot[CC, B], W <: Winner[C]]:
+sealed trait Election[C <: Candidate, B[+CC >: C <: Candidate] <: Ballot[CC, B], W <: Winner[C]]:
 
   protected val DEFAULT_TIE_RESOLVER: TieResolver[C] = Election.TieResolvers.doNothingTieResolver
 
   /**
    * A method that resolve ties for candidates with equal scores using the given TieResolver
-   * @see [[votee.models.TieResolver]]
-   * @see [[Election.TieResolvers.doNothingTieResolver]]
+   *
    * @param sortedCandidateScores A sorted Seq of Candidates and their scores
    * @param tieResolver A Tie Resolver
    * @return A new Seq of candidates and their scores
+   *
+   * @see [[votee.models.TieResolver]]
+   * @see [[Election.TieResolvers.doNothingTieResolver]]
    */
   protected final def resolveTies(sortedCandidateScores: Seq[(C, Rational)])(using tieResolver: TieResolver[C]):Seq[(C, Rational)] =
+  //Todo make this tail recursive
+  // Verify the tie resolver laws before using it or not (take the default tie resolver in this case)
     def partition(Seq: Seq[(C, Rational)]): Seq[(C, Rational)] =
       if Seq.isEmpty || Seq.length == 1 then Seq
       else Seq.partition(_._2 == Seq.head._2) match
