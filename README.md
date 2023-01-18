@@ -20,7 +20,7 @@ Currently, the following vote counting algorithms are implemented:
 * `Majority`
 * `Super Majority`
 * `Veto`
-  github.com/hiis-io/zio-auth-server
+
 ## Core Concepts
 The library is meant to be highly extensible by the user. It was designed to be used with your own components such as your own definition of a Ballot or Candidate. The library consist of the following core concepts.
 1. `Election`
