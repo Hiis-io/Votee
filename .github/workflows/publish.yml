@@ -6,7 +6,6 @@ on:
 
 env:
   PACKAGE_TOKEN: ${{secrets.PACKAGE_TOKEN}}
-  VERSION: ${{github.ref:1}}
 
 permissions:
   contents: read
@@ -17,5 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set env
+        run: echo ::set-env name=VERSION::$(echo ${GITHUB_REF:1})
       - name: Build Library
         run: sbt publish
