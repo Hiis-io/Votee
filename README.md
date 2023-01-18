@@ -35,14 +35,37 @@ Each of these components are made to be extensible, however the library is provi
 Currently, the library isn't yet published to maven hence developers will have to use the JAR provided in the output folder.
 Follow the steps bellow to add votee to your scala application.
 
-1. In the root directory of your scala application create a directory called `lib`
-2. Copy the JAR file(`votee-x.y.z.jar`) from [`output`](./output) to your `lib` directory.
 
-3. Test the library with the following code snippet
+1. Add `sbt-github-packages` plugin to enable sbt to consume the package
+      
+      Add this line to your `./project/plugins.sbt`
+
+      `addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.3")`
+  
+    
+2. Add library resolver and dependencies to `./build.sbt`
+
+      ```
+         githubTokenSource := TokenSource.Environment("GITHUB_TOKEN")
+
+         resolvers += Resolver.githubPackages("hiis-io")
+
+         libraryDependencies += "io.hiis" %% "votee" % "<version>"
+      ```
+
+3. Create a GitHub token from GitHub with permissions `(repo and package)`
+      Create and copy a GitHub token with permissions `repo and package` then create an Environment variable called `GITHUB_TOKEN` on your computer which has as value to token generated from GitHub.
+      
+      - On Windows Command prompt(cmd) run `setx GITHUB_TOKEN <token_from_github>`
+
+      - On Mac or Linux go to `~/.profile` and add the line `export GITHUB_TOKEN=<token_from_github>`
+
+
+4. Test the library with the following code snippet
    ```scala
       import spire.math.Rational
-      import votee.algorithms.Majority
-      import votee.models.{Election, PreferentialBallot, PreferentialCandidate, TieResolver}
+      import io.hiis.votee.algorithms.Majority
+      import io.hiis.votee.models.{Election, PreferentialBallot, PreferentialCandidate, TieResolver}
    
       import scala.util.Random
    
@@ -75,7 +98,7 @@ Follow the steps bellow to add votee to your scala application.
       ```
    2. Ballot: You are advised not to build your own Ballot and rather used the builtin implementation which is `PreferentialBallot`. You can however extend the current implementation of Ballot if you really have to. Below is how the `PreferentialBallot` is implemented.
       ```scala
-        import votee.models.{Ballot, Candidate}
+        import io.hiis.votee.models.{Ballot, Candidate}
         import spire.math.Rational
       
         final case class PreferentialBallot[+C <: Candidate](override val id: Int, override val weight: Rational = Rational(1, 1), override val preferences: Seq[C])
@@ -95,7 +118,7 @@ Follow the steps bellow to add votee to your scala application.
       If for some reason you would like to resolve ties differently from what is proposed above, you need to implement the `TieResolver trait`. Below is the contract
       ```scala
         import spire.math.Rational
-        import votee.models.Candidate
+        import io.hiis.votee.models.Candidate
       
         /**
          * TieResolver describes the contract on how to resolve candidates with the same scores.
