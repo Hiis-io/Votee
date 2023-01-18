@@ -1,6 +1,6 @@
 name := "Votee"
 
-version := "0.1.0-RC1"
+version := "0.1.0"
 
 organization := "io.hiis"
 
@@ -12,7 +12,7 @@ scalaVersion := "3.2.0"
 
 libraryDependencies ++= dependencies
 
-assemblyJarName := "votee-0.1.0-RC1.jar"
+assemblyJarName := "votee-0.1.0.jar"
 
 githubOwner := "icemc"
 

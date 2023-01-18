@@ -11,7 +11,7 @@ on:
       - develop
 env:
   GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
-  
+
 jobs:
   test:
     runs-on: ubuntu-latest
