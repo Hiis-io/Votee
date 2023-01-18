@@ -1,0 +1,21 @@
+name: Publish Library
+
+on:
+  release:
+    types: [published]
+
+env:
+  GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Library
+        run: sbt publish
+          fail_ci_if_error: true

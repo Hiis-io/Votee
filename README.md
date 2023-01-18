@@ -20,7 +20,7 @@ Currently, the following vote counting algorithms are implemented:
 * `Majority`
 * `Super Majority`
 * `Veto`
-
+  github.com/hiis-io/zio-auth-server
 ## Core Concepts
 The library is meant to be highly extensible by the user. It was designed to be used with your own components such as your own definition of a Ballot or Candidate. The library consist of the following core concepts.
 1. `Election`
@@ -32,13 +32,13 @@ The library is meant to be highly extensible by the user. It was designed to be 
 Each of these components are made to be extensible, however the library is provided with a default implementation of each component. This enables users to use the library or test it without implementing their own components.
 
 ## Usage
-Since this is a `Scala 3` project and so far no Fat JAR packager library such as `sbt-assembly` currently supports `scala 3 projects`, developers will have to use the JAR provided in the output folder.
+Currently, the library isn't yet published to maven hence developers will have to use the JAR provided in the output folder.
 Follow the steps bellow to add votee to your scala application.
 
 1. In the root directory of your scala application create a directory called `lib`
 2. Copy the JAR file(`votee-x.y.z.jar`) from [`output`](./output) to your `lib` directory.
 
-3. Test the application with the following code snippet
+3. Test the library with the following code snippet
    ```scala
       import spire.math.Rational
       import votee.algorithms.Majority
@@ -68,7 +68,7 @@ Follow the steps bellow to add votee to your scala application.
       }
    ```
 ### Extending the core components
-   1. Candidate: If the current implementation of the Candidate doesn't suit your needs you can create yours by extending the candidate class 
+   1. Candidate: If the current implementation of the Candidate doesn't suit your needs you can create yours by extending the candidate trait 
       ```scala
          import votee.models.Candidate
          final case class MyCandidate(override val id: String, name: String, ...) extends Candidate(id)
