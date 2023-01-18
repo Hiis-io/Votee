@@ -1,6 +1,6 @@
 name := "votee"
 
-version := sys.env.getOrElse("VERSION", "0.1.0")
+version := sys.env.getOrElse("VERSION", "0.1.1")
 
 organization := "io.hiis"
 
@@ -11,8 +11,6 @@ organizationHomepage := Some(new URL("https://www.hiis.io"))
 scalaVersion := "3.2.0"
 
 libraryDependencies ++= dependencies
-
-assemblyJarName := "votee-0.1.0.jar"
 
 githubOwner := "hiis-io"
 
