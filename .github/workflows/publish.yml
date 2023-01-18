@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+  PACKAGE_TOKEN: ${{secrets.GIT_TOKEN}}
 
 permissions:
   contents: read

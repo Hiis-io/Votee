@@ -18,7 +18,7 @@ githubOwner := "icemc"
 
 githubRepository := "Votee"
 
-githubTokenSource := TokenSource.Environment("GITHUB_TOKEN")
+githubTokenSource := TokenSource.Environment("PACKAGE_TOKEN")
 
 lazy val dependencies = Seq(
   "org.scalanlp"      %% "breeze"    % "2.1.0",

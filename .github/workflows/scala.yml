@@ -10,7 +10,7 @@ on:
       - master
       - develop
 env:
-  GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+  PACKAGE_TOKEN: ${{secrets.GIT_TOKEN}}
 
 jobs:
   test:
