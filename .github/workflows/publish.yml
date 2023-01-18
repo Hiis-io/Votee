@@ -6,6 +6,7 @@ on:
 
 env:
   PACKAGE_TOKEN: ${{secrets.PACKAGE_TOKEN}}
+  VERSION: ${{github.ref:1}}
 
 permissions:
   contents: read

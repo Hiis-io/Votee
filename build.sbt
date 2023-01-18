@@ -1,6 +1,6 @@
-name := "Votee"
+name := "votee"
 
-version := "0.1.0"
+version := sys.env.getOrElse("VERSION", "0.1.0")
 
 organization := "io.hiis"
 
