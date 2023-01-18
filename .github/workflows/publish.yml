@@ -12,7 +12,7 @@ permissions:
   packages: write
 
 jobs:
-  test:
+  publish_library:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
