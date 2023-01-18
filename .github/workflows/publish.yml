@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set env
-        run: echo ::set-env name=VERSION::$(echo ${GITHUB_REF:1})
+        run: echo "truncated_tag=$(echo ${GITHUB_REF:11})" >> $GITHUB_ENV
       - name: Build Library
+        env:
+          VERSION: ${{env.truncated_tag}}
         run: sbt publish
