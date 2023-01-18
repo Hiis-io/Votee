@@ -10,7 +10,7 @@ on:
       - master
       - develop
 env:
-  PACKAGE_TOKEN: ${{secrets.GIT_TOKEN}}
+  PACKAGE_TOKEN: 'N/A'
 
 jobs:
   test:

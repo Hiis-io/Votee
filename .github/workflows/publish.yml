@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  PACKAGE_TOKEN: ${{secrets.GIT_TOKEN}}
+  PACKAGE_TOKEN: ${{secrets.PACKAGE_TOKEN}}
 
 permissions:
   contents: read
@@ -16,7 +16,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Print Token
-        run: echo "Token is $PACKAGE_TOKEN"
       - name: Build Library
         run: sbt publish
