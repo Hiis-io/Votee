@@ -14,7 +14,7 @@ libraryDependencies ++= dependencies
 
 assemblyJarName := "votee-0.1.0.jar"
 
-githubOwner := "icemc"
+githubOwner := "hiis-io"
 
 githubRepository := "Votee"
 
