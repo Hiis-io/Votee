@@ -91,9 +91,9 @@ Follow the steps bellow to add votee to your scala application.
       }
    ```
 ### Extending the core components
-   1. Candidate: If the current implementation of the Candidate doesn't suit your needs you can create yours by extending the candidate trait 
+   1. Candidate: If the current implementation of the Candidate doesn't suit your needs you can create yours by extending the candidate trait
       ```scala
-         import votee.models.Candidate
+         import io.hiis.votee.models.Candidate
          final case class MyCandidate(override val id: String, name: String, ...) extends Candidate(id)
       ```
    2. Ballot: You are advised not to build your own Ballot and rather used the builtin implementation which is `PreferentialBallot`. You can however extend the current implementation of Ballot if you really have to. Below is how the `PreferentialBallot` is implemented.
